@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<properties resource="com/eatle/persistent/generator/generatorConfig.properties" />
+	
+	<context id="MBG" targetRuntime="MyBatis3" defaultModelType="conditional">	<!--targetRuntime 此属性用于指定生成的代码的运行目标。 -->
+	
+		<!-- 重命名 Example 类-->
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">  
+		    <property name="searchString" value="Example$" />  
+		    <property name="replaceString" value="Criteria" />
+		</plugin>
+		
+		<!-- 重命名 selectByExample 方法 -->
+		<plugin type="com.eatle.persistent.generator.RenameSlectByExamplePlugin">  
+		    <property name="searchString" value="Example$" />  <!-- value 为 Rexg 表达式 -->
+		    <property name="replaceString" value="Criteria" />
+		</plugin>
+		
+		<!-- POJO里生成equals hashcode方法 -->
+		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" /> 
+		<!-- POJO实现Serializable接口 --> 
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" /> 
+        
+        <!-- 添加分页支持 -->
+		<plugin type="com.eatle.persistent.generator.GeneratorMysqlPagePlugin" />
+		<!-- 添加selectByMap mapper方法 -->
+		<plugin type="com.eatle.persistent.generator.GenSelectByMapPlugin" />
+		<!-- 添加service 层 代码生成 -->
+		<!-- <plugin type="com.eatle.persistent.generator.GeneratorServiceLayerPlugin" />
+		添加action 层 代码生成
+		<plugin type="com.eatle.persistent.generator.GeneratorActionLayerPlugin" />
+		添加action 层 struts 配置文件生成
+		<plugin type="com.eatle.persistent.generator.GeneratorStrutsXmlPlugin" /> -->
+		
+		
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		
+		<jdbcConnection driverClass="${driverClass}" connectionURL="${connectionURL}" userId="${userId}" password="${password}"/>
+		
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />								   <!-- 类型解析器 -->
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="${modelPackage}" targetProject="${targetProject}">	<!-- 实体类 -->
+			<property name="enableSubPackages" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="${sqlMapperPackage}" targetProject="${targetProject}">	<!-- 实体类SQL映射文件 -->
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="${daoMapperPackage}" targetProject="${targetProject}">
+			<property name="enableSubPackages" value="true" />									<!-- 接口 -->
+		</javaClientGenerator>
+		
+		<table schema="test" tableName="${tableName}" domainObjectName="${domainObjectName}"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="true"
+			selectByExampleQueryId="false">
+		</table>
+
+	</context>
+</generatorConfiguration>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eatle.persistent.mapper.PrivMapper" >
+  <resultMap id="BaseResultMap" type="com.eatle.persistent.pojo.admin.Priv" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="priv_name" property="privName" jdbcType="VARCHAR" />
+    <result column="meue_name" property="meueName" jdbcType="VARCHAR" />
+    <result column="action" property="action" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="is_show" property="isShow" jdbcType="TINYINT" />
+    <result column="p_id" property="pId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, priv_name, meue_name, action, description, is_show, p_id
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.eatle.persistent.pojo.admin.PrivCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_privilege
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pageSize > 0" >
+      limit ${startIndex},${pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_privilege
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_privilege
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.eatle.persistent.pojo.admin.Priv" >
+    insert into t_privilege (id, priv_name, meue_name, 
+      action, description, is_show, 
+      p_id)
+    values (#{id,jdbcType=BIGINT}, #{privName,jdbcType=VARCHAR}, #{meueName,jdbcType=VARCHAR}, 
+      #{action,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{isShow,jdbcType=TINYINT}, 
+      #{pId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eatle.persistent.pojo.admin.Priv" >
+    insert into t_privilege
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="privName != null" >
+        priv_name,
+      </if>
+      <if test="meueName != null" >
+        meue_name,
+      </if>
+      <if test="action != null" >
+        action,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="privName != null" >
+        #{privName,jdbcType=VARCHAR},
+      </if>
+      <if test="meueName != null" >
+        #{meueName,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eatle.persistent.pojo.admin.Priv" >
+    update t_privilege
+    <set >
+      <if test="privName != null" >
+        priv_name = #{privName,jdbcType=VARCHAR},
+      </if>
+      <if test="meueName != null" >
+        meue_name = #{meueName,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        action = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="pId != null" >
+        p_id = #{pId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eatle.persistent.pojo.admin.Priv" >
+    update t_privilege
+    set priv_name = #{privName,jdbcType=VARCHAR},
+      meue_name = #{meueName,jdbcType=VARCHAR},
+      action = #{action,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      is_show = #{isShow,jdbcType=TINYINT},
+      p_id = #{pId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCountByCriteria" resultType="long" parameterType="com.eatle.persistent.pojo.admin.PrivCriteria" >
+    select count(1) 
+    from t_privilege
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByMap" resultMap="BaseResultMap" parameterType="Map" >
+    select * from t_privilege
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="privName != null" >
+        and priv_name = #{privName,jdbcType=VARCHAR}
+      </if>
+      <if test="meueName != null" >
+        and meue_name = #{meueName,jdbcType=VARCHAR}
+      </if>
+      <if test="action != null" >
+        and action = #{action,jdbcType=VARCHAR}
+      </if>
+      <if test="description != null" >
+        and description = #{description,jdbcType=VARCHAR}
+      </if>
+      <if test="isShow != null" >
+        and is_show = #{isShow,jdbcType=TINYINT}
+      </if>
+      <if test="pId != null" >
+        and p_id = #{pId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="long">
+  		select * from t_privilege p,t_role_privilege rp 
+  			where p.id = rp.priv_id and rp.role_id = #{roleId}
+  </select>
+</mapper>
